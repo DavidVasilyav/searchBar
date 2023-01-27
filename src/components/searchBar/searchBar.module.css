@@ -1,0 +1,25 @@
+.main_body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main_form_box {
+    height: 350px;
+    width: 80%;
+    border: 1px solid black;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.filter_box {
+    color: black;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 390px;
+}
