@@ -2,12 +2,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
 .main_form_box {
     height: 350px;
     width: 80%;
-    border: 1px solid black;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
     margin-top: 10px;
     display: flex;
     align-items: center;
@@ -22,4 +24,11 @@
     align-items: center;
     gap: 10px;
     width: 390px;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* transition: 2s; */
 }
