@@ -8,13 +8,19 @@ import {
     TextField,
     Typography,
     Slider,
-    Grid
+    Grid,
+    ToggleButton,
+    ToggleButtonGroup,
+    FormControlLabel,
+    Switch
 } from '@mui/material'
+import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter'
+import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 
+import filterData from '../../utils/filterData';
 import classes from './searchBar.module.css'
 import Usercard from '../cards/userCard/Usercard'
 import data from '../../data/data.json'
-import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 
 
 function SearchBar() {
@@ -22,8 +28,10 @@ function SearchBar() {
     const [input, setInput ] = useState("");
     const [alignment, setAlignment] = React.useState('left');
     
-    const handleAlignment = (e, newAlignment) => {
-        setAlignment(newAlignment);
+    const handleAlignment = (e) => {
+        setAlignment(e.target.value);
+        const filterDataByRole =
+        setAlignment(e.target.value);
     };
     
     
@@ -54,16 +62,15 @@ function SearchBar() {
     
     const handleChangeSlider  = (e) => {
         setSliderBar(e.target.value);
-        console.log(132);
     }
     
     const handleChangeRole = (e) => {
-        setRole(e.target.value);
-        console.log(e.target);
-
+        setRole(e.currentTarget.value);
     }
     
     const handleInput = (e) => {
+        setCountry('');
+        setIndustry('')
         const keyword = e.target.value
 
         if (keyword !== '') {
@@ -75,7 +82,7 @@ function SearchBar() {
           setInput(keyword);
         };
       
-        const handleChangeCountry = (e) => {
+    const handleChangeCountry = (e) => {
             const keyword = e.target.value
             setCountry(keyword)
             if(input === '') {
@@ -84,7 +91,7 @@ function SearchBar() {
                 });
                 setSearch(results);
                 
-                } else if(input !== '') {
+                } if(input !== '') {
                     const inputFiltered = data.filter((user) => {
                         return user.first_name.toLowerCase().startsWith(input.toLowerCase());
                       });
@@ -92,53 +99,79 @@ function SearchBar() {
                     return user.country.toLowerCase().startsWith(keyword.toLowerCase());
                 });
                 setSearch(finalResults);
+
+            } if(industry !== '') {
+                const inputFiltered = data.filter((user) => {
+                    return user.role.toLowerCase().startsWith(industry.toLowerCase());
+                  });
+                const finalResults = inputFiltered.filter((user) => {
+                return user.country.toLowerCase().startsWith(keyword.toLowerCase());
+            });
+            setSearch(finalResults);
             }
-    
         }
-        const handleChangeIndustry = (e) => {
+
+    const handleChangeIndustry = (e) => {
             const keyword = e.target.value
             setIndustry(keyword)
-            if(input || country === '') {
+            if(input === '') {
                 const results = data.filter((user) => {
                     return user.role.toLowerCase().startsWith(keyword.toLowerCase());
                 });
                 setSearch(results);
                 
-                } else if(input || country  !== '') {
+                } if(input !== '') {
                     const inputFiltered = data.filter((user) => {
                         return user.first_name.toLowerCase().startsWith(input.toLowerCase());
                       });
-                    const countryResults = inputFiltered.filter((user) => {
-                    return user.country.toLowerCase().startsWith(country.toLowerCase());
-                });
 
-                const finalResults = countryResults.filter((user) => {
+                const finalResults = inputFiltered.filter((user) => {
                     return user.role.toLowerCase().startsWith(keyword.toLowerCase());
                 });
                 setSearch(finalResults);
+
+            }
+             if(country !== '') {
+                const inputFiltered = data.filter((user) => {
+                    return user.country.toLowerCase().startsWith(country.toLowerCase());
+                  });
+
+            const finalResults = inputFiltered.filter((user) => {
+                return user.role.toLowerCase().startsWith(keyword.toLowerCase());
+            });
+            setSearch(finalResults);
             }
         }
+
   return (
     <Box className={classes.main_body}>
         <Box className={classes.main_form_box}>
-        {/* <FormControl sx={{width: '150px'}} >
+        <FormControl sx={{width: '150px'}} >
         <ToggleButtonGroup
               value={alignment}
               exclusive
               onChange={handleAlignment}
               aria-label="text alignment"
+              className={classes.role}
             > 
-            <ToggleButton value={"Mentee"} aria-label="left aligned" onClick={handleChangeRole}>
-            <FormatAlignCenterIcon value={"Mentee"} />
+            <ToggleButton value={"Mentee"} aria-label="left aligned" onClick={handleChangeRole} >
+                <Typography>
+                    <h4>Mentee</h4>
+                </Typography>
+            <BusinessCenterIcon />
             </ToggleButton>
             
             <ToggleButton value={"Mentor"} aria-label="right aligned" onClick={handleChangeRole}>
+            <Typography>
+                    <h4>Mentor</h4>
+                </Typography>
+            <FormatAlignCenterIcon />
             </ToggleButton>
             
-            </ToggleButtonGroup> */}
+            </ToggleButtonGroup>
             
-            {/* <FormControlLabel control={<Switch defaultChecked />} label="Mentee" value={'Mentee'} /> */}
-            {/* <InputLabel >Mentee/mentor</InputLabel>
+            {/* <FormControlLabel control={<Switch defaultChecked />} label="Mentee" value={'Mentee'} />}
+            <InputLabel >Mentee/mentor</InputLabel>
             <Select
             value={role}
             label='Mentee/mentor'
@@ -148,12 +181,12 @@ function SearchBar() {
                 <MenuItem value={role}>{role}</MenuItem>
                 
                 )}
-            </Select> */}
-        {/* </FormControl> */}
+            </Select>  */}
+         </FormControl>
     <Box>
-        {/* <Typography>
+        <Typography>
             <h4>Find your {role} today!</h4>
-        </Typography> */}
+        </Typography> 
 
         <TextField
           id="filled-search"
